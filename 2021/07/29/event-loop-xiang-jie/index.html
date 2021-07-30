@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, Vue NodeJs 前端">
+    <meta name="keywords" content="Event Loop详解, Vue NodeJs 前端">
     <meta name="description" content="分享前端开发内容">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -18,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World | 碳酸苏打的博客</title>
+    <title>Event Loop详解 | 碳酸苏打的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -314,12 +314,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World</h1>
+                    <h1 class="description center-align post-title">Event Loop详解</h1>
                 </div>
             </div>
         </div>
@@ -433,12 +433,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/javascript/">
+                                <span class="chip bg-color">javascript</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%9F%BA%E7%A1%80/" class="post-category">
+                                基础
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -447,28 +460,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-07-23
+                    2021-07-29
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-07-26
+                    2021-07-30
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    73
+                    725
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    3 分
                 </div>
                 
 
@@ -488,19 +501,276 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash"><code class="language-bash">$ hexo server
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash"><code class="language-bash">$ hexo generate
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash"><code class="language-bash">$ hexo deploy
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+                <p><img src="/2021/07/29/event-loop-xiang-jie/loop-1.png" alt="这是代替图片的文字，随便写"></p>
+<h2 id="setTimeout-执行"><a href="#setTimeout-执行" class="headerlink" title="setTimeout 执行"></a>setTimeout 执行</h2><pre class="line-numbers language-js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+   <span class="token function">task</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token number">3000</span><span class="token punctuation">)</span>
+
+<span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">10000000</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 假设执行时间远远超过了3秒</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol>
+<li>task() 进入Event Table并注册回掉函数</li>
+<li>执行sleep函数</li>
+<li>3s到了， task进入Event Quene, 但sleep未执行完，只能等待</li>
+<li>sleep执行完毕后，task 从 Event Queue进入主线程执行</li>
+</ol>
+<h2 id="setInterval"><a href="#setInterval" class="headerlink" title="setInterval"></a>setInterval</h2><ol>
+<li>setInterval会每隔指定的时间把注册函数放入Event Quene</li>
+<li>如果前面的任务耗时太久，那么同样需要等待</li>
+<li>对于setInterval(fn,ms)来说，不是每过ms秒会执行一次fn，而是每过ms秒，会有fn进入Event Queue</li>
+</ol>
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><ul>
+<li> macro-task(宏任务)：包括整体代码script，setTimeout，setInterval</li>
+<li> micro-task(微任务)：promise.then，catch，finally</li>
+</ul>
+<h2 id="练习-1"><a href="#练习-1" class="headerlink" title="练习 1"></a>练习 1</h2><pre class="line-numbers language-js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'setTimeout'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'promise'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'then'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'console'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol>
+<li>setTimeout, 将回调函数注册分发到宏任务Event Quene</li>
+<li>Promise, new Promise立即执行，then函数分发到微任务Event Quene</li>
+<li>console.log 立即执行</li>
+<li>第一个宏任务结束，执行then微任务</li>
+<li>第二轮循环，从宏任务Event Quene中执行setTime回调函数</li>
+</ol>
+<p><img src="/2021/07/29/event-loop-xiang-jie/loop-2.png" alt="这是代替图片的文字，随便写"></p>
+<h2 id="练习-2"><a href="#练习-2" class="headerlink" title="练习 2"></a>练习 2</h2><pre class="line-numbers language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// setTimeout1</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'2'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'4'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment" spellcheck="true">// then2</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'5'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'7'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// then1</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'8'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// setTimeout2</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'9'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'11'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment" spellcheck="true">// then3</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'12'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="解析-2"><a href="#解析-2" class="headerlink" title="解析 2:"></a>解析 2:</h3><table>
+<thead>
+<tr>
+<th align="center">循环轮次</th>
+<th align="center">宏任务 Event Queue</th>
+<th align="center">微任务 Event Queue</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">输出1</td>
+<td align="center"></td>
+<td align="center">执行第一轮宏任务</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">分发setTimeout1</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">输出7</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center"></td>
+<td align="center">分发then1</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">分发setTimeout2</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">第一轮宏任务结束</td>
+<td align="center">执行then1</td>
+<td align="center">执行第一轮微任务</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">输出8</td>
+<td align="center">第一轮事件微任务结束</td>
+<td align="center">第一轮事件循环结束</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">执行setTimeout1</td>
+<td align="center">执行第二轮宏任务</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">输出2</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">输出4</td>
+<td align="center">分发then2</td>
+<td align="center">第二轮宏任务结束</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center"></td>
+<td align="center">执行then2</td>
+<td align="center">执行第二轮微任务</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">输出5</td>
+<td align="center">第二轮微任务结束</td>
+<td align="center">第二轮事件循环结束</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">执行setTimeout2</td>
+<td align="center"></td>
+<td align="center">执行第三轮宏任务</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">输出9</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">输出11</td>
+<td align="center">分发then3</td>
+<td align="center">第三轮宏任务结束</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center"></td>
+<td align="center">执行then3</td>
+<td align="center">执行第三轮微任务</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">输出12</td>
+<td align="center">第三轮微任务结束</td>
+<td align="center">第三轮事件循环结束</td>
+</tr>
+</tbody></table>
+<h2 id="练习-3"><a href="#练习-3" class="headerlink" title="练习 3"></a>练习 3</h2><pre class="line-numbers language-js"><code class="language-js">Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// then1</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Promise1'</span><span class="token punctuation">)</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// setTimeout1</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"setTimeout1"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// setTimeout2</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'setTimeout2'</span><span class="token punctuation">)</span>
+    Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// then 2</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Promise2'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="解析3"><a href="#解析3" class="headerlink" title="解析3"></a>解析3</h3><table>
+<thead>
+<tr>
+<th align="center">循环轮次</th>
+<th align="center">宏任务 Event Queue</th>
+<th align="center">微任务 Event Queue</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center"></td>
+<td align="center">分发then1</td>
+<td align="center">第一轮宏任务开始</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">分发setTimeout2</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center"></td>
+<td align="center">执行then1</td>
+<td align="center">第一轮微任务开始</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">输出Promise1</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">分发setTimeout1</td>
+<td align="center">第一轮事件微任务结束</td>
+<td align="center">第一轮事件循环结束</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">执行setTimeout2</td>
+<td align="center"></td>
+<td align="center">第二轮宏任务开始</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">输出setTimeout2</td>
+<td align="center">分发then2</td>
+<td align="center">第二轮宏任务结束</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center"></td>
+<td align="center">执行then2</td>
+<td align="center">第二轮微任务开始</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">输出Promise2</td>
+<td align="center">第二轮微任务结束</td>
+<td align="center">第二轮事件循环结束</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">执行setTimeout1</td>
+<td align="center"></td>
+<td align="center">第三轮宏任务开始</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">输出setTimeout1</td>
+<td align="center"></td>
+<td align="center">第三轮事件循环结束</td>
+</tr>
+</tbody></table>
 
                 
             </div>
@@ -527,7 +797,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://ssdmtank.github.io/2021/07/23/hello-world/">https://ssdmtank.github.io/2021/07/23/hello-world/</a>
+                    <a href="https://ssdmtank.github.io/2021/07/29/event-loop-xiang-jie/">https://ssdmtank.github.io/2021/07/29/event-loop-xiang-jie/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -564,7 +834,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/javascript/">
+                                    <span class="chip bg-color">javascript</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1056,70 +1330,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2021/07/25/shou-xie-lei-si-vue-shuang-xiang-bang-ding/">
+                <a href="/2021/07/29/event-loop-xiang-jie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="手写类似vue双向绑定">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Event Loop详解">
                         
-                        <span class="card-title">手写类似vue双向绑定</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-07-25
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%813/" class="post-category">
-                                    手写代码3
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/">
-                        <span class="chip bg-color">手写代码</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%812/">
-                        <span class="chip bg-color">手写代码2</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
-            </div>
-            <div class="card">
-                <a href="/2021/07/23/hello-world/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                        
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">Event Loop详解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1130,17 +1352,78 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-29
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            King Win
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    基础
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/javascript/">
+                        <span class="chip bg-color">javascript</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/07/27/qian-duan-leetcode/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="前端Leetcode">
+                        
+                        <span class="card-title">前端Leetcode</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-27
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/leetcode/">
+                        <span class="chip bg-color">leetcode</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
