@@ -32,8 +32,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
     <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
 
-<meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
 
@@ -474,7 +473,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    248
+                    260
                 </div>
                 
 
@@ -496,6 +495,9 @@
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
 
         
 
@@ -506,52 +508,51 @@
 </ol>
 <p>示例 1:<br>输入: [1,2,3,1]<br>输出: true</p>
 <p>示例 2:<br>输入: [1,2,3,4]<br>输出: false</p>
-<pre class="line-numbers language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 解法1 map</span>
-<span class="token keyword">const</span> isDuplicateArr <span class="token operator">=</span> <span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">// 解法1 map</span>
+<span class="token keyword">const</span> <span class="token function-variable function">isDuplicateArr</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">nums</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
     <span class="token keyword">let</span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Map</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> item <span class="token keyword">of</span> nums<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> item <span class="token keyword">of</span> nums<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
         <span class="token keyword">if</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">has</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span>
-        map<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
+        map<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
     <span class="token keyword">return</span> <span class="token boolean">false</span>
-<span class="token punctuation">}</span>
+<span class="token punctuation">&#125;</span>
 
-<span class="token comment" spellcheck="true">// 解法2 set</span>
-<span class="token keyword">const</span> isDuplicateArr2 <span class="token operator">=</span> <span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Set</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">!==</span> nums<span class="token punctuation">.</span>length
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token comment">// 解法2 set</span>
+<span class="token keyword">const</span> <span class="token function-variable function">isDuplicateArr2</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">nums</span><span class="token punctuation">)</span> <span class="token operator">=></span> Array<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Set</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">!==</span> nums<span class="token punctuation">.</span>length<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <ol start="2">
 <li>给定一个字符串，找到它的第一个不重复的字符，并返回它的索引。如果不存在，则返回 -1。</li>
 </ol>
-<pre class="line-numbers language-js"><code class="language-js">示例：
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">示例：
     s <span class="token operator">=</span> <span class="token string">"leetcode"</span>
     返回 <span class="token number">0</span>
 
     s <span class="token operator">=</span> <span class="token string">"loveleetcode"</span>
     返回 <span class="token number">2</span>
-    <span class="token comment" spellcheck="true">// 提示：你可以假定该字符串只包含小写字母</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 解法1 map</span>
-<span class="token keyword">var</span> firstUniqueChar <span class="token operator">=</span> <span class="token punctuation">(</span>str<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> map <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token comment">// 提示：你可以假定该字符串只包含小写字母</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">// 解法1 map</span>
+<span class="token keyword">var</span> <span class="token function-variable function">firstUniqueChar</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">str</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">const</span> map <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
     <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> charStr <span class="token keyword">of</span> str<span class="token punctuation">)</span>  map<span class="token punctuation">[</span>charStr<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>map<span class="token punctuation">[</span>charStr<span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span>
     <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> str<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token keyword">if</span><span class="token punctuation">(</span>map<span class="token punctuation">[</span>str<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> i
     <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span>
-<span class="token punctuation">}</span>
+<span class="token punctuation">&#125;</span>
 
-<span class="token comment" spellcheck="true">// 解法2</span>
-<span class="token keyword">var</span> firstUniqueChar2 <span class="token operator">=</span> <span class="token punctuation">(</span>str<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> str<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token comment">// 解法2</span>
+<span class="token keyword">var</span> <span class="token function-variable function">firstUniqueChar2</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">str</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> str<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
         <span class="token keyword">let</span> strArr <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
-        <span class="token comment" spellcheck="true">// 去除当前循环字符串</span>
+        <span class="token comment">// 去除当前循环字符串</span>
         strArr<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
-        <span class="token comment" spellcheck="true">// 比较当前循环字符串是否0 11在</span>
+        <span class="token comment">// 比较当前循环字符串是否0 11在</span>
         <span class="token keyword">if</span><span class="token punctuation">(</span>strArr<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>str<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> i
-    <span class="token punctuation">}</span>
+    <span class="token punctuation">&#125;</span>
     <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span>
-<span class="token punctuation">}</span>
+<span class="token punctuation">&#125;</span>
 
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
                 
             </div>
             <hr/>
@@ -1414,7 +1415,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">1.1k</span>
+                        class="white-color">3.1k</span>
             
             
             

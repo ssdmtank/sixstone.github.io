@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="手写类似vue双向绑定, Vue NodeJs 前端">
+    <meta name="keywords" content="es7 async/await, Vue NodeJs 前端">
     <meta name="description" content="分享前端开发内容">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -18,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>手写类似vue双向绑定 | 碳酸苏打的博客</title>
+    <title>es7 async/await | 碳酸苏打的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -313,12 +313,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">手写类似vue双向绑定</h1>
+                    <h1 class="description center-align post-title">es7 async/await</h1>
                 </div>
             </div>
         </div>
@@ -432,29 +432,12 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/">
-                                <span class="chip bg-color">手写代码</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%812/">
-                                <span class="chip bg-color">手写代码2</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%813/" class="post-category">
-                                手写代码3
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -463,21 +446,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-07-25
+                    2021-08-03
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-07-26
+                    2021-08-03
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8
+                    233
                 </div>
                 
 
@@ -507,9 +490,16 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="markdown语法"><a href="#markdown语法" class="headerlink" title="markdown语法"></a>markdown语法</h3> <pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p><strong>dd</strong></p>
+                <p>async/await 是 ES7 的标准，Promise 是 ES6 标准，async/await 这套 API 也是用来帮助我们写异步代码的，它是构建在 Promise 之上的。</p>
+<p>async 一般不单独使用，而是和 await 一起使用，一个 async 函数内部可能有 零个 或者 多个 await 。</p>
+<h2 id="为什么要使用-async-？"><a href="#为什么要使用-async-？" class="headerlink" title="为什么要使用 async ？"></a>为什么要使用 async ？</h2><ul>
+<li>隐藏 Promise ，更易于理解</li>
+<li>用同步的思路写异步逻辑</li>
+</ul>
+<h2 id="异常处理-try…catch"><a href="#异常处理-try…catch" class="headerlink" title="异常处理 try…catch"></a>异常处理 try…catch</h2><ol>
+<li>在 async 函数中，异常处理一般是 try…catch ，如果没有进行 try…catch ，await 表达式一旦 reject ，async 函数返回的 Promise 就会 reject 。</li>
+<li>其实结合 Promise 来看，如果一个 Promise 状态敲定为 reject ，并且后续的 then 没有传入 reject 函数，或者没有 catch ，那么就会抛出异常。从这个角度来看，在 async 函数中用 try…catch 来包住 await 表达式，可能就是 catch 住这个异常，并且把这个 reject 信息传到 catch 里面。</li>
+</ol>
 
                 
             </div>
@@ -536,7 +526,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://ssdmtank.github.io/2021/07/25/shou-xie-lei-si-vue-shuang-xiang-bang-ding/">https://ssdmtank.github.io/2021/07/25/shou-xie-lei-si-vue-shuang-xiang-bang-ding/</a>
+                    <a href="https://ssdmtank.github.io/2021/08/03/es7-async-await/">https://ssdmtank.github.io/2021/08/03/es7-async-await/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -573,15 +563,7 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/">
-                                    <span class="chip bg-color">手写代码</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%812/">
-                                    <span class="chip bg-color">手写代码2</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -1077,13 +1059,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/07/27/qian-duan-leetcode/">
+                <a href="/2021/08/04/js-fu-dian-shu-jing-du-ji-suan/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="前端Leetcode">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="js浮点数精度计算">
                         
-                        <span class="card-title">前端Leetcode</span>
+                        <span class="card-title">js浮点数精度计算</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1094,14 +1076,14 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-07-27
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-08-04
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
+                            <a href="/categories/javascript%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    javascript基础
                                 </a>
                             
                             
@@ -1111,8 +1093,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/leetcode/">
-                        <span class="chip bg-color">leetcode</span>
+                    <a href="/tags/%E7%B2%BE%E5%BA%A6%E4%B8%A2%E5%A4%B1/">
+                        <span class="chip bg-color">精度丢失</span>
                     </a>
                     
                 </div>
@@ -1126,13 +1108,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/07/23/hello-world/">
+                <a href="/2021/07/29/event-loop-xiang-jie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Event Loop详解">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">Event Loop详解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1143,15 +1125,27 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-29
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            King Win
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    基础
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/javascript/">
+                        <span class="chip bg-color">javascript</span>
+                    </a>
+                    
                 </div>
                 
             </div>

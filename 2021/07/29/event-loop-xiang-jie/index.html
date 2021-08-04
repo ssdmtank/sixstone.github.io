@@ -32,8 +32,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
     <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
 
-<meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
 
@@ -467,21 +466,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-07-30
+                    2021-08-03
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    725
+                    1.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    5 分
                 </div>
                 
 
@@ -496,46 +495,74 @@
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
 
         
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><img src="/2021/07/29/event-loop-xiang-jie/loop-1.png" alt="这是代替图片的文字，随便写"></p>
-<h2 id="setTimeout-执行"><a href="#setTimeout-执行" class="headerlink" title="setTimeout 执行"></a>setTimeout 执行</h2><pre class="line-numbers language-js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+                <h1 id="EventLoop-事件循环详解"><a href="#EventLoop-事件循环详解" class="headerlink" title="EventLoop 事件循环详解"></a>EventLoop 事件循环详解</h1><h2 id="一、javascript单线程"><a href="#一、javascript单线程" class="headerlink" title="一、javascript单线程"></a>一、javascript单线程</h2><p>JavaScript语言是单线程，即同一个时刻只做一件事。为何？因为，JavaScript作为浏览器脚本语言，如果它同时拥有多个线程，那么，它在操作DOM时，就会造成复杂的同步问题。比如，JavaScript的两个线程对同一个DOM节点进行操作，一个删除DOM，一个修改DOM。那么，浏览器该先执行那个操作呢？所以，为了避免出现此种情况，它只能是单线程。</p>
+<h2 id="二、同步／异步任务"><a href="#二、同步／异步任务" class="headerlink" title="二、同步／异步任务"></a>二、同步／异步任务</h2><p>因为是单线程，所以，JavaScript所有任务都要排队。且只有前一个任务结束，才会执行后一个任务。但是，这会面临着一个问题：前一个任务耗时较长时，后一个任务就不得不一直等待。为解决这个问题，将所有任务分成了两种：</p>
+<ul>
+<li>同步任务<br>在主线程上排队执行的任务。且只有前一个任务执行完毕，后一个任务才会执行。</li>
+<li>异步任务<br>不进主线程，而是进任务队列的任务。且仅当任务队列通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。不对主线程执行后续任务造成阻塞。</li>
+</ul>
+<p>因为增加了多线程并行之后，主线程需要频繁的和多个线程协调任务、调度任务，于是浏览器又进一步引入了事件循环(EventLoop)的机制，来协调多个线程多个事件之间的工作。</p>
+<h2 id="三、宏任务／微任务"><a href="#三、宏任务／微任务" class="headerlink" title="三、宏任务／微任务"></a>三、宏任务／微任务</h2><ul>
+<li> macro-task(宏任务)：包括整体代码script，各种事件回调（dom事件、I/O），setTimeout，setInterval、requestAnimationFrame、setImmediate（Node中的api）等。</li>
+<li> micro-task(微任务)：promise.[then/catch/finally]，MutationObserver (dom变化监听/前端回溯)、process.nextTick（Node中的api）等。</li>
+</ul>
+<h2 id="四、浏览器中事件循环的具体机制执行流程"><a href="#四、浏览器中事件循环的具体机制执行流程" class="headerlink" title="四、浏览器中事件循环的具体机制执行流程"></a>四、浏览器中事件循环的具体机制执行流程</h2><ul>
+<li>简要版： 调用栈为空 -&gt; 执行宏任务队列最早一个宏任务x -&gt; 执行x关联的微任务队列中的所有微任务 -&gt; 调用栈为空 … 如此循环</li>
+<li>详细版：<ol>
+<li>执行一个宏任务(栈中没有就中事件队列中获取)</li>
+<li>执行过程中如果遇到微任务，就将它添加到为任务的任务队列中</li>
+<li>宏任务执行完毕后，立即执行当前微任务队列中的所有微任务（依次执行）</li>
+<li>当前宏任务执行完毕，开始检查渲染</li>
+<li>渲染完毕之后，开始下一个宏任务</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p>事件循环处理宏任务和微任务队列的区别：在单次的循环迭代中，最多处理一个宏任务(其余的在队列中等待)，而队列中的所有微任务都会被处理</p>
+</blockquote>
+<p><img src="/.io//loop-1.png" alt="eventloop流程"></p>
+<h2 id="五、案例"><a href="#五、案例" class="headerlink" title="五、案例"></a>五、案例</h2><h3 id="setTimeout-执行"><a href="#setTimeout-执行" class="headerlink" title="setTimeout 执行"></a>setTimeout 执行</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
    <span class="token function">task</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token number">3000</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">3000</span><span class="token punctuation">)</span>
 
-<span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">10000000</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 假设执行时间远远超过了3秒</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">10000000</span><span class="token punctuation">)</span> <span class="token comment">// 假设执行时间远远超过了3秒</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <ol>
 <li>task() 进入Event Table并注册回掉函数</li>
 <li>执行sleep函数</li>
 <li>3s到了， task进入Event Quene, 但sleep未执行完，只能等待</li>
 <li>sleep执行完毕后，task 从 Event Queue进入主线程执行</li>
 </ol>
-<h2 id="setInterval"><a href="#setInterval" class="headerlink" title="setInterval"></a>setInterval</h2><ol>
+<h3 id="setInterval"><a href="#setInterval" class="headerlink" title="setInterval"></a>setInterval</h3><ol>
 <li>setInterval会每隔指定的时间把注册函数放入Event Quene</li>
 <li>如果前面的任务耗时太久，那么同样需要等待</li>
 <li>对于setInterval(fn,ms)来说，不是每过ms秒会执行一次fn，而是每过ms秒，会有fn进入Event Queue</li>
 </ol>
-<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><ul>
+<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><ul>
 <li> macro-task(宏任务)：包括整体代码script，setTimeout，setInterval</li>
 <li> micro-task(微任务)：promise.then，catch，finally</li>
 </ul>
-<h2 id="练习-1"><a href="#练习-1" class="headerlink" title="练习 1"></a>练习 1</h2><pre class="line-numbers language-js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<h3 id="练习-1"><a href="#练习-1" class="headerlink" title="练习 1"></a>练习 1</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'setTimeout'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
 
-<span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">resolve</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'promise'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'then'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
 
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'console'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'console'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <ol>
 <li>setTimeout, 将回调函数注册分发到宏任务Event Quene</li>
 <li>Promise, new Promise立即执行，then函数分发到微任务Event Quene</li>
@@ -543,34 +570,33 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li>第一个宏任务结束，执行then微任务</li>
 <li>第二轮循环，从宏任务Event Quene中执行setTime回调函数</li>
 </ol>
-<p><img src="/2021/07/29/event-loop-xiang-jie/loop-2.png" alt="这是代替图片的文字，随便写"></p>
-<h2 id="练习-2"><a href="#练习-2" class="headerlink" title="练习 2"></a>练习 2</h2><pre class="line-numbers language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// setTimeout1</span>
+<p><img src="/.io//loop-2.png" alt="这是代替图片的文字，随便写"></p>
+<h3 id="练习-2"><a href="#练习-2" class="headerlink" title="练习 2"></a>练习 2</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// setTimeout1</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'2'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'4'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment" spellcheck="true">// then2</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  <span class="token comment">// then2</span>
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'5'</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
-<span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'7'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// then1</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// then1</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'8'</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// setTimeout2</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// setTimeout2</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'9'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'11'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment" spellcheck="true">// then3</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  <span class="token comment">// then3</span>
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'12'</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="解析-2"><a href="#解析-2" class="headerlink" title="解析 2:"></a>解析 2:</h3><table>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="解析-2"><a href="#解析-2" class="headerlink" title="解析 2:"></a>解析 2:</h4><table>
 <thead>
 <tr>
 <th align="center">循环轮次</th>
@@ -682,20 +708,20 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <td align="center">第三轮事件循环结束</td>
 </tr>
 </tbody></table>
-<h2 id="练习-3"><a href="#练习-3" class="headerlink" title="练习 3"></a>练习 3</h2><pre class="line-numbers language-js"><code class="language-js">Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// then1</span>
+<h3 id="练习-3"><a href="#练习-3" class="headerlink" title="练习 3"></a>练习 3</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js">Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token comment">// then1</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Promise1'</span><span class="token punctuation">)</span>
-    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// setTimeout1</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span> <span class="token comment">// setTimeout1</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"setTimeout1"</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// setTimeout2</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token comment">// setTimeout2</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'setTimeout2'</span><span class="token punctuation">)</span>
-    Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// then 2</span>
+    Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token comment">// then 2</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Promise2'</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="解析3"><a href="#解析3" class="headerlink" title="解析3"></a>解析3</h3><table>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="解析3"><a href="#解析3" class="headerlink" title="解析3"></a>解析3</h4><table>
 <thead>
 <tr>
 <th align="center">循环轮次</th>
@@ -1330,18 +1356,17 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/07/29/event-loop-xiang-jie/">
+                <a href="/2021/08/03/es7-async-await/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Event Loop详解">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="es7 async/await">
                         
-                        <span class="card-title">Event Loop详解</span>
+                        <span class="card-title">es7 async/await</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1351,29 +1376,16 @@ console<span class="token punctuation">.</span><span class="token function">log<
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-29
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-08-03
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    基础
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            King Win
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/javascript/">
-                        <span class="chip bg-color">javascript</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -1632,7 +1644,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">1.1k</span>
+                        class="white-color">3.1k</span>
             
             
             
