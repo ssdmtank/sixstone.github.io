@@ -466,7 +466,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-08-03
+                    2021-08-04
                 </div>
                 
 
@@ -528,7 +528,7 @@
 <blockquote>
 <p>事件循环处理宏任务和微任务队列的区别：在单次的循环迭代中，最多处理一个宏任务(其余的在队列中等待)，而队列中的所有微任务都会被处理</p>
 </blockquote>
-<p><img src="/.io//loop-1.png" alt="eventloop流程"></p>
+<p><img src="/2021/07/29/event-loop-xiang-jie/loop-1.png" alt="eventloop流程"></p>
 <h2 id="五、案例"><a href="#五、案例" class="headerlink" title="五、案例"></a>五、案例</h2><h3 id="setTimeout-执行"><a href="#setTimeout-执行" class="headerlink" title="setTimeout 执行"></a>setTimeout 执行</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
    <span class="token function">task</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">3000</span><span class="token punctuation">)</span>
@@ -570,7 +570,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li>第一个宏任务结束，执行then微任务</li>
 <li>第二轮循环，从宏任务Event Quene中执行setTime回调函数</li>
 </ol>
-<p><img src="/.io//loop-2.png" alt="这是代替图片的文字，随便写"></p>
+<p><img src="/2021/07/29/event-loop-xiang-jie/loop-2.png" alt="这是代替图片的文字，随便写"></p>
 <h3 id="练习-2"><a href="#练习-2" class="headerlink" title="练习 2"></a>练习 2</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// setTimeout1</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'2'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
