@@ -466,7 +466,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-08-04
+                    2021-08-05
                 </div>
                 
 
@@ -552,9 +552,21 @@
 </tr>
 </tbody></table>
 <blockquote>
-<p>小数转二进制的方法： 对小数点以后的数乘以2，有一个结果吧，取结果的整数部分（不是1就是0），然后再用小数部分再乘以2，再取结果的整数部分……以此类推，直到小数部分为0或者位数已经够了。<br>演示： 0.125 × 2 = 0.25 …………………..0<br>      0.25  × 2 = 0.5  …………………..0<br>      0.5   × 2 = 1.0  …………………..1<br>验证： 0.001   0×2的0次方+0×2的-1次方+0×2的-2次方+0×2的-3次方=1/8=0.125，正确。</p>
+<p>小数转二进制的方法： 对小数点以后的数乘以2，有一个结果吧，取结果的整数部分（不是1就是0），然后再用小数部分再乘以2，再取结果的整数部分……以此类推，直到小数部分为0或者位数已经够了。</p>
 </blockquote>
-<h4 id="0-1不能转化二进制"><a href="#0-1不能转化二进制" class="headerlink" title="0.1不能转化二进制"></a>0.1不能转化二进制</h4><p> 0.1 × 2 = 0.2 ………………….0<br> 0.2 × 2 = 0.4 ………………….0<br> 0.4 × 2 = 0.8 ………………….0<br> 0.8 × 2 = 1.6…………………..1<br> 0.6 × 2 = 1.2…………………..1<br> 0.2 × 2 = 0.4…………………..0<br> …..<br> 因为不能得到小数位为0且位数会溢出<br> 所有0.1转化会无限循环 =&gt; 0.0001 1001 1001 1001 …</p>
+<p> 演示： </p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token number">0.125</span> × <span class="token number">2</span> <span class="token operator">=</span> <span class="token number">0.25</span> <span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token punctuation">.</span><span class="token number">.0</span>
+<span class="token number">0.25</span>  × <span class="token number">2</span> <span class="token operator">=</span> <span class="token number">0.5</span>  <span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token punctuation">.</span><span class="token number">.0</span>
+<span class="token number">0.5</span>   × <span class="token number">2</span> <span class="token operator">=</span> <span class="token number">1.0</span>  <span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token punctuation">.</span><span class="token number">.1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>验证： 0.001 =&gt;  0×2的0次方+0×2的-1次方+0×2的-2次方+0×2的-3次方=1/8=0.125，正确。</p>
+<h4 id="0-1不能转化二进制"><a href="#0-1不能转化二进制" class="headerlink" title="0.1不能转化二进制"></a>0.1不能转化二进制</h4><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token number">0.1</span> × <span class="token number">2</span> <span class="token operator">=</span> <span class="token number">0.2</span> <span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token number">.0</span>
+<span class="token number">0.2</span> × <span class="token number">2</span> <span class="token operator">=</span> <span class="token number">0.4</span> <span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token number">.0</span>
+<span class="token number">0.4</span> × <span class="token number">2</span> <span class="token operator">=</span> <span class="token number">0.8</span> <span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token number">.0</span>
+<span class="token number">0.8</span> × <span class="token number">2</span> <span class="token operator">=</span> <span class="token number">1.6</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token punctuation">.</span><span class="token number">.1</span>
+<span class="token number">0.6</span> × <span class="token number">2</span> <span class="token operator">=</span> <span class="token number">1.2</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token punctuation">.</span><span class="token number">.1</span>
+<span class="token number">0.2</span> × <span class="token number">2</span> <span class="token operator">=</span> <span class="token number">0.4</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token punctuation">.</span><span class="token number">.0</span>
+<span class="token operator">...</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p> 因为不能得到小数位为0且位数会溢出<br> 所有0.1转化会无限循环 =&gt; 0.0001 1001 1001 1001 …</p>
 <h4 id="toFixed四舍五入不准确性"><a href="#toFixed四舍五入不准确性" class="headerlink" title="toFixed四舍五入不准确性"></a>toFixed四舍五入不准确性</h4><p><img src="/2021/08/04/js-fu-dian-shu-jing-du-ji-suan/toFixed.png" alt="ecmascript 规范对toFixed描述"></p>
 <pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token number">1.595</span><span class="token punctuation">.</span><span class="token function">toFixed</span><span class="token punctuation">(</span><span class="token parameter"><span class="token number">2</span></span><span class="token punctuation">)</span>   <span class="token operator">=></span> <span class="token string">"1.59"</span>
 <span class="token number">1.5952</span><span class="token punctuation">.</span><span class="token function">toFixed</span><span class="token punctuation">(</span><span class="token parameter"><span class="token number">2</span></span><span class="token punctuation">)</span>  <span class="token operator">=></span> <span class="token string">"1.60"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
@@ -564,7 +576,7 @@
 <li>159/100-1.595 = -0.004999999999999893</li>
 <li>160/100-1.595 = 0.0050000000000001155</li>
 <li>可以看到最接近0的是 -0.004999999999999893 故n为159，m为159，k为3<br>k−f为1，故a为15，则b为9，所以(1.595).toFixed(1)的结果为1.59</li>
-<li>159/100-1.595 不为1.595 原理和0.1不能转化二进制一样</li>
+<li>159/100-1.595 不为1.595, 原理和0.1不能转化二进制一样</li>
 </ul>
 <h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="方法1-Math-js"><a href="#方法1-Math-js" class="headerlink" title="方法1 Math.js"></a>方法1 Math.js</h3><ol>
 <li>安装<pre class="line-numbers language-js" data-language="js"><code class="language-js">npm install mathjs <span class="token operator">/</span> yarn add mathjs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
@@ -1238,18 +1250,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/08/04/js-fu-dian-shu-jing-du-ji-suan/">
+                <a href="/2021/08/05/li-jie-promise-de-ji-ge-fang-fa/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="js浮点数精度计算">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="理解Promise的几个方法">
                         
-                        <span class="card-title">js浮点数精度计算</span>
+                        <span class="card-title">理解Promise的几个方法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1259,27 +1270,26 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-04
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-08-05
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/javascript%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    javascript基础
+                            <a href="/categories/js%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    js基础
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%B2%BE%E5%BA%A6%E4%B8%A2%E5%A4%B1/">
-                        <span class="chip bg-color">精度丢失</span>
+                    <a href="/tags/Promise/">
+                        <span class="chip bg-color">Promise</span>
                     </a>
                     
                 </div>
@@ -1535,7 +1545,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">3.1k</span>
+                        class="white-color">4.7k</span>
             
             
             

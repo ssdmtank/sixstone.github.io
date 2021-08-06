@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Event Loop详解, Vue NodeJs 前端">
+    <meta name="keywords" content="Vue数据双向绑定对数组的处理, Vue NodeJs 前端">
     <meta name="description" content="分享前端开发内容">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -18,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Event Loop详解 | 碳酸苏打的博客</title>
+    <title>Vue数据双向绑定对数组的处理 | 碳酸苏打的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -313,12 +313,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Event Loop详解</h1>
+                    <h1 class="description center-align post-title">Vue数据双向绑定对数组的处理</h1>
                 </div>
             </div>
         </div>
@@ -434,8 +434,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/javascript/">
-                                <span class="chip bg-color">javascript</span>
+                            <a href="/tags/%E6%95%B0%E7%BB%84/">
+                                <span class="chip bg-color">数组</span>
                             </a>
                         
                     </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%9F%BA%E7%A1%80/" class="post-category">
-                                基础
+                            <a href="/categories/Vue/" class="post-category">
+                                Vue
                             </a>
                         
                     </div>
@@ -459,28 +459,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-07-29
+                    2021-08-06
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-08-04
+                    2021-08-06
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.5k
+                    1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    5 分
+                    4 分
                 </div>
                 
 
@@ -503,301 +503,141 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="EventLoop-事件循环详解"><a href="#EventLoop-事件循环详解" class="headerlink" title="EventLoop 事件循环详解"></a>EventLoop 事件循环详解</h1><h2 id="一、javascript单线程"><a href="#一、javascript单线程" class="headerlink" title="一、javascript单线程"></a>一、javascript单线程</h2><p>JavaScript语言是单线程，即同一个时刻只做一件事。为何？因为，JavaScript作为浏览器脚本语言，如果它同时拥有多个线程，那么，它在操作DOM时，就会造成复杂的同步问题。比如，JavaScript的两个线程对同一个DOM节点进行操作，一个删除DOM，一个修改DOM。那么，浏览器该先执行那个操作呢？所以，为了避免出现此种情况，它只能是单线程。</p>
-<h2 id="二、同步／异步任务"><a href="#二、同步／异步任务" class="headerlink" title="二、同步／异步任务"></a>二、同步／异步任务</h2><p>因为是单线程，所以，JavaScript所有任务都要排队。且只有前一个任务结束，才会执行后一个任务。但是，这会面临着一个问题：前一个任务耗时较长时，后一个任务就不得不一直等待。为解决这个问题，将所有任务分成了两种：</p>
+                <h2 id="Vue不能检测数组变动"><a href="#Vue不能检测数组变动" class="headerlink" title="Vue不能检测数组变动"></a>Vue不能检测数组变动</h2><ol>
+<li>当你利用索引直接设置一个数组项时，例如：vm.items[indexOfItem] = newValue</li>
+<li>当你修改数组的长度时，例如：vm.items.length = newLength</li>
+</ol>
+<p>Object.defineProperty 支持数组监听劫持，<br>但Vue因为性能问题没有提供对数组属性对监听</p>
+<h2 id="vue如何实现对数组监听"><a href="#vue如何实现对数组监听" class="headerlink" title="vue如何实现对数组监听"></a>vue如何实现对数组监听</h2><h4 id="Vue官方提供2种方法"><a href="#Vue官方提供2种方法" class="headerlink" title="Vue官方提供2种方法"></a>Vue官方提供2种方法</h4><ol>
+<li>vm.$set</li>
+<li>arr.splice</li>
+</ol>
+<h4 id="Vue源码里重写里7个内置api"><a href="#Vue源码里重写里7个内置api" class="headerlink" title="Vue源码里重写里7个内置api"></a>Vue源码里重写里7个内置api</h4><ul>
+<li>push()</li>
+<li>pop()</li>
+<li>shift()</li>
+<li>unshift()</li>
+<li>splice()</li>
+<li>sort()</li>
+<li>reverse()</li>
+</ul>
+<h2 id="深入源码"><a href="#深入源码" class="headerlink" title="深入源码"></a>深入源码</h2><h4 id="数组改写原型和通知观察者更新"><a href="#数组改写原型和通知观察者更新" class="headerlink" title="数组改写原型和通知观察者更新"></a>数组改写原型和通知观察者更新</h4><ul>
+<li>创建数组原型，赋值给 arrayMethods</li>
+<li>重写数组原型方法给 arrayMethods 并修改 this</li>
+<li>observeArray, 对数组改变的数据进行观测，递归遍历 </li>
+<li>通知 wachter 更新视图</li>
+</ul>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">// vue 2.6</span>
+<span class="token comment">// src/core/observer/array.js</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> def <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">'../util/index'</span>
+
+<span class="token keyword">const</span> arrayProto <span class="token operator">=</span> <span class="token class-name">Array</span><span class="token punctuation">.</span>prototype <span class="token comment">// 获取数组原型对象</span>
+<span class="token comment">// 生成一个新对象，且__proto__ 指向 数组原型对象Array.prototype</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> arrayMethods <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>arrayProto<span class="token punctuation">)</span>
+
+<span class="token comment">// 列出需要重写的数组方法名</span>
+<span class="token keyword">const</span> methodsToPatch <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token string">'push'</span><span class="token punctuation">,</span>
+  <span class="token string">'pop'</span><span class="token punctuation">,</span>
+  <span class="token string">'shift'</span><span class="token punctuation">,</span>
+  <span class="token string">'unshift'</span><span class="token punctuation">,</span>
+  <span class="token string">'splice'</span><span class="token punctuation">,</span>
+  <span class="token string">'sort'</span><span class="token punctuation">,</span>
+  <span class="token string">'reverse'</span>
+<span class="token punctuation">]</span>
+
+<span class="token comment">/**
+ * 遍历上述数组方法名，依次将上述重写后的数组方法添加到arrayMethods对象上
+ */</span>
+methodsToPatch<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">method</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">const</span> original <span class="token operator">=</span> arrayProto<span class="token punctuation">[</span>method<span class="token punctuation">]</span> <span class="token comment">//缓存原始方法</span>
+  <span class="token comment">// 将重写后的方法定义到arrayMethods对象上，function mutator() &#123;&#125;就是重写后的方法</span>
+  <span class="token function">def</span><span class="token punctuation">(</span>arrayMethods<span class="token punctuation">,</span> method<span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token function">mutator</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 调用数组原始方法，并传入参数args，并将执行结果赋给result</span>
+    <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">original</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+    <span class="token comment">// 当数组调用重写后的方法时，this指向该数组，当该数组为响应式时，就可以获取到其__ob__属性</span>
+    <span class="token keyword">const</span> ob <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>__ob__
+    <span class="token keyword">let</span> inserted
+    <span class="token comment">// 由于 push、unshift、splice 三个数组方法会新增数组元素，我们只要将新增的元素 inserted 转换为响应式数据即可</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>method<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">case</span> <span class="token string">'push'</span><span class="token operator">:</span>
+      <span class="token keyword">case</span> <span class="token string">'unshift'</span><span class="token operator">:</span>
+        inserted <span class="token operator">=</span> args
+        <span class="token keyword">break</span>
+      <span class="token keyword">case</span> <span class="token string">'splice'</span><span class="token operator">:</span>
+        inserted <span class="token operator">=</span> args<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+        <span class="token keyword">break</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>inserted<span class="token punctuation">)</span> ob<span class="token punctuation">.</span><span class="token function">observeArray</span><span class="token punctuation">(</span>inserted<span class="token punctuation">)</span> <span class="token comment">// 获取插入的值，并设置响应式监听</span>
+    ob<span class="token punctuation">.</span>dep<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 通知依赖像更新</span>
+    <span class="token comment">// 最后返回执行结果result</span>
+    <span class="token keyword">return</span> result
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>重写完数组的上述7种方法外，我们还需要将这些重写的方法应用到数组上，因此在Observer构造函数中，可以看到在监听数据时会判断数据类型是否为数组。<br>当为数组时，</p>
 <ul>
-<li>同步任务<br>在主线程上排队执行的任务。且只有前一个任务执行完毕，后一个任务才会执行。</li>
-<li>异步任务<br>不进主线程，而是进任务队列的任务。且仅当任务队列通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。不对主线程执行后续任务造成阻塞。</li>
+<li>如果浏览器支持__proto__，则直接将当前数据的原型__proto__指向重写后的数组方法对象arrayMethods，</li>
+<li>如果浏览器不支持__proto__，则直接将arrayMethods上重写的方法直接定义到当前数据对象上；当数据类型为非数组时，继续递归执行数据的监听。</li>
 </ul>
-<p>因为增加了多线程并行之后，主线程需要频繁的和多个线程协调任务、调度任务，于是浏览器又进一步引入了事件循环(EventLoop)的机制，来协调多个线程多个事件之间的工作。</p>
-<h2 id="三、宏任务／微任务"><a href="#三、宏任务／微任务" class="headerlink" title="三、宏任务／微任务"></a>三、宏任务／微任务</h2><ul>
-<li> macro-task(宏任务)：包括整体代码script，各种事件回调（dom事件、I/O），setTimeout，setInterval、requestAnimationFrame、setImmediate（Node中的api）等。</li>
-<li> micro-task(微任务)：promise.[then/catch/finally]，MutationObserver (dom变化监听/前端回溯)、process.nextTick（Node中的api）等。</li>
-</ul>
-<h2 id="四、浏览器中事件循环的具体机制执行流程"><a href="#四、浏览器中事件循环的具体机制执行流程" class="headerlink" title="四、浏览器中事件循环的具体机制执行流程"></a>四、浏览器中事件循环的具体机制执行流程</h2><ul>
-<li>简要版： 调用栈为空 -&gt; 执行宏任务队列最早一个宏任务x -&gt; 执行x关联的微任务队列中的所有微任务 -&gt; 调用栈为空 … 如此循环</li>
-<li>详细版：<ol>
-<li>执行一个宏任务(栈中没有就中事件队列中获取)</li>
-<li>执行过程中如果遇到微任务，就将它添加到为任务的任务队列中</li>
-<li>宏任务执行完毕后，立即执行当前微任务队列中的所有微任务（依次执行）</li>
-<li>当前宏任务执行完毕，开始检查渲染</li>
-<li>渲染完毕之后，开始下一个宏任务</li>
-</ol>
-</li>
-</ul>
-<blockquote>
-<p>事件循环处理宏任务和微任务队列的区别：在单次的循环迭代中，最多处理一个宏任务(其余的在队列中等待)，而队列中的所有微任务都会被处理</p>
-</blockquote>
-<p><img src="/2021/07/29/event-loop-xiang-jie/loop-1.png" alt="eventloop流程"></p>
-<h2 id="五、案例"><a href="#五、案例" class="headerlink" title="五、案例"></a>五、案例</h2><h3 id="setTimeout-执行"><a href="#setTimeout-执行" class="headerlink" title="setTimeout 执行"></a>setTimeout 执行</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-   <span class="token function">task</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">3000</span><span class="token punctuation">)</span>
+<h4 id="和对象不同，数组依赖存放在-Observer-中"><a href="#和对象不同，数组依赖存放在-Observer-中" class="headerlink" title="和对象不同，数组依赖存放在 Observer 中"></a>和对象不同，数组依赖存放在 Observer 中</h4><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">// src/core/observer/index.js </span>
 
-<span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">10000000</span><span class="token punctuation">)</span> <span class="token comment">// 假设执行时间远远超过了3秒</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">Observer</span> <span class="token punctuation">&#123;</span>
+  value<span class="token operator">:</span> any<span class="token punctuation">;</span>
+  dep<span class="token operator">:</span> Dep<span class="token punctuation">;</span>
+  vmCount<span class="token operator">:</span> number<span class="token punctuation">;</span> 
 
-<ol>
-<li>task() 进入Event Table并注册回掉函数</li>
-<li>执行sleep函数</li>
-<li>3s到了， task进入Event Quene, 但sleep未执行完，只能等待</li>
-<li>sleep执行完毕后，task 从 Event Queue进入主线程执行</li>
-</ol>
-<h3 id="setInterval"><a href="#setInterval" class="headerlink" title="setInterval"></a>setInterval</h3><ol>
-<li>setInterval会每隔指定的时间把注册函数放入Event Quene</li>
-<li>如果前面的任务耗时太久，那么同样需要等待</li>
-<li>对于setInterval(fn,ms)来说，不是每过ms秒会执行一次fn，而是每过ms秒，会有fn进入Event Queue</li>
-</ol>
-<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><ul>
-<li> macro-task(宏任务)：包括整体代码script，setTimeout，setInterval</li>
-<li> micro-task(微任务)：promise.then，catch，finally</li>
-</ul>
-<h3 id="练习-1"><a href="#练习-1" class="headerlink" title="练习 1"></a>练习 1</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'setTimeout'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+  <span class="token function">constructor</span> <span class="token punctuation">(</span><span class="token parameter">value<span class="token operator">:</span> any</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> value
+    <span class="token keyword">this</span><span class="token punctuation">.</span>dep <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Dep</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>vmCount <span class="token operator">=</span> <span class="token number">0</span>
 
-<span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">resolve</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'promise'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'then'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token comment">// def为defineProperty的封装，函数签名为def(obj, key, val, enumerable)</span>
+    <span class="token comment">// 将 Observer 的实例设置在私有属性__ob__上，所以无论依赖收集还是通知，都是通过 Observer 实例__ob__上的 dep 属性来操作的。</span>
+    <span class="token comment">// 同时__ob__也成了判断数据是否是响应式的依据，有该属性数据就是响应式的。</span>
+    <span class="token function">def</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> <span class="token string">'__ob__'</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span>
+    <span class="token comment">// 如果是数组，先篡改数组的一些方法(push,splice,shift等等)，使其能够支持响应式</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>Array<span class="token punctuation">.</span><span class="token function">isArray</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>hasProto<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">protoAugment</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> arrayMethods<span class="token punctuation">)</span> <span class="token comment">// 改写数组原型方法</span>
+      <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">copyAugment</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> arrayMethods<span class="token punctuation">,</span> arrayKeys<span class="token punctuation">)</span> <span class="token comment">// 复制数组已有方法</span>
+      <span class="token punctuation">&#125;</span>
+      <span class="token comment">// 数组里面的元素还是数组或者对象，递归地调用 observe 函数，使其成为响应式数据</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">observeArray</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+      <span class="token comment">// 遍历对象，使其每个键值也能成为响应式数据    </span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">walk</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
 
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'console'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  <span class="token function">walk</span> <span class="token punctuation">(</span><span class="token parameter">obj<span class="token operator">:</span> Object</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">const</span> keys <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> keys<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token comment">// 将对象的键值转换成 getter / setter，</span>
+      <span class="token comment">// getter 收集依赖</span>
+      <span class="token comment">// setter 通知 watcher 更新</span>
+      <span class="token function">defineReactive</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> keys<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
 
-<ol>
-<li>setTimeout, 将回调函数注册分发到宏任务Event Quene</li>
-<li>Promise, new Promise立即执行，then函数分发到微任务Event Quene</li>
-<li>console.log 立即执行</li>
-<li>第一个宏任务结束，执行then微任务</li>
-<li>第二轮循环，从宏任务Event Quene中执行setTime回调函数</li>
-</ol>
-<p><img src="/2021/07/29/event-loop-xiang-jie/loop-2.png" alt="这是代替图片的文字，随便写"></p>
-<h3 id="练习-2"><a href="#练习-2" class="headerlink" title="练习 2"></a>练习 2</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// setTimeout1</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'2'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'4'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  <span class="token comment">// then2</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'5'</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
-<span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'7'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// then1</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'8'</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// setTimeout2</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'9'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">resolve</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'11'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  <span class="token comment">// then3</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'12'</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="解析-2"><a href="#解析-2" class="headerlink" title="解析 2:"></a>解析 2:</h4><table>
-<thead>
-<tr>
-<th align="center">循环轮次</th>
-<th align="center">宏任务 Event Queue</th>
-<th align="center">微任务 Event Queue</th>
-<th align="center">备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center">输出1</td>
-<td align="center"></td>
-<td align="center">执行第一轮宏任务</td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center">分发setTimeout1</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center">输出7</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center"></td>
-<td align="center">分发then1</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center">分发setTimeout2</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center">第一轮宏任务结束</td>
-<td align="center">执行then1</td>
-<td align="center">执行第一轮微任务</td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center">输出8</td>
-<td align="center">第一轮事件微任务结束</td>
-<td align="center">第一轮事件循环结束</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">执行setTimeout1</td>
-<td align="center">执行第二轮宏任务</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">输出2</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">输出4</td>
-<td align="center">分发then2</td>
-<td align="center">第二轮宏任务结束</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center"></td>
-<td align="center">执行then2</td>
-<td align="center">执行第二轮微任务</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">输出5</td>
-<td align="center">第二轮微任务结束</td>
-<td align="center">第二轮事件循环结束</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center">执行setTimeout2</td>
-<td align="center"></td>
-<td align="center">执行第三轮宏任务</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center">输出9</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center">输出11</td>
-<td align="center">分发then3</td>
-<td align="center">第三轮宏任务结束</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center"></td>
-<td align="center">执行then3</td>
-<td align="center">执行第三轮微任务</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center">输出12</td>
-<td align="center">第三轮微任务结束</td>
-<td align="center">第三轮事件循环结束</td>
-</tr>
-</tbody></table>
-<h3 id="练习-3"><a href="#练习-3" class="headerlink" title="练习 3"></a>练习 3</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js">Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token comment">// then1</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Promise1'</span><span class="token punctuation">)</span>
-    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span> <span class="token comment">// setTimeout1</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"setTimeout1"</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token comment">// setTimeout2</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'setTimeout2'</span><span class="token punctuation">)</span>
-    Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token comment">// then 2</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Promise2'</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  <span class="token comment">/**
+   * Observe a list of Array items.
+   */</span>
+  <span class="token function">observeArray</span> <span class="token punctuation">(</span><span class="token parameter">items<span class="token operator">:</span> Array<span class="token operator">&lt;</span>any<span class="token operator">></span></span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> l <span class="token operator">=</span> items<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> l<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token function">observe</span><span class="token punctuation">(</span>items<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
 
-<h4 id="解析3"><a href="#解析3" class="headerlink" title="解析3"></a>解析3</h4><table>
-<thead>
-<tr>
-<th align="center">循环轮次</th>
-<th align="center">宏任务 Event Queue</th>
-<th align="center">微任务 Event Queue</th>
-<th align="center">备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center"></td>
-<td align="center">分发then1</td>
-<td align="center">第一轮宏任务开始</td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center">分发setTimeout2</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center"></td>
-<td align="center">执行then1</td>
-<td align="center">第一轮微任务开始</td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center">输出Promise1</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center">分发setTimeout1</td>
-<td align="center">第一轮事件微任务结束</td>
-<td align="center">第一轮事件循环结束</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">执行setTimeout2</td>
-<td align="center"></td>
-<td align="center">第二轮宏任务开始</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">输出setTimeout2</td>
-<td align="center">分发then2</td>
-<td align="center">第二轮宏任务结束</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center"></td>
-<td align="center">执行then2</td>
-<td align="center">第二轮微任务开始</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">输出Promise2</td>
-<td align="center">第二轮微任务结束</td>
-<td align="center">第二轮事件循环结束</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center">执行setTimeout1</td>
-<td align="center"></td>
-<td align="center">第三轮宏任务开始</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center">输出setTimeout1</td>
-<td align="center"></td>
-<td align="center">第三轮事件循环结束</td>
-</tr>
-</tbody></table>
-
+  <span class="token comment">/**
+   * 改写原型方法，把原型改写指向 arrayMethods
+   */</span>
+  <span class="token keyword">function</span> <span class="token function">protoAugment</span> <span class="token punctuation">(</span><span class="token parameter">target<span class="token punctuation">,</span> src<span class="token operator">:</span> Object</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    target<span class="token punctuation">.</span>__proto__ <span class="token operator">=</span> src
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
                 
             </div>
             <hr/>
@@ -823,7 +663,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://ssdmtank.github.io/2021/07/29/event-loop-xiang-jie/">https://ssdmtank.github.io/2021/07/29/event-loop-xiang-jie/</a>
+                    <a href="https://ssdmtank.github.io/2021/08/06/vue-shu-ju-shuang-xiang-bang-ding-dui-shu-zu-de-chu-li/">https://ssdmtank.github.io/2021/08/06/vue-shu-ju-shuang-xiang-bang-ding-dui-shu-zu-de-chu-li/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -861,8 +701,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/javascript/">
-                                    <span class="chip bg-color">javascript</span>
+                                <a href="/tags/%E6%95%B0%E7%BB%84/">
+                                    <span class="chip bg-color">数组</span>
                                 </a>
                             
                         </div>
@@ -1356,17 +1196,18 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2021/08/03/es7-async-await/">
+                <a href="/2021/08/06/vue-shu-ju-shuang-xiang-bang-ding-dui-shu-zu-de-chu-li/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="es7 async/await">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Vue数据双向绑定对数组的处理">
                         
-                        <span class="card-title">es7 async/await</span>
+                        <span class="card-title">Vue数据双向绑定对数组的处理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1376,16 +1217,29 @@ console<span class="token punctuation">.</span><span class="token function">log<
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-08-03
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-06
+                            </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            King Win
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Vue/" class="post-category">
+                                    Vue
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%95%B0%E7%BB%84/">
+                        <span class="chip bg-color">数组</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -1397,13 +1251,13 @@ console<span class="token punctuation">.</span><span class="token function">log<
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/07/27/qian-duan-leetcode/">
+                <a href="/2021/08/05/li-jie-promise-de-ji-ge-fang-fa/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="前端Leetcode">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="理解Promise的几个方法">
                         
-                        <span class="card-title">前端Leetcode</span>
+                        <span class="card-title">理解Promise的几个方法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1414,14 +1268,14 @@ console<span class="token punctuation">.</span><span class="token function">log<
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-05
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
+                            <a href="/categories/js%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    js基础
                                 </a>
                             
                             
@@ -1431,8 +1285,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/leetcode/">
-                        <span class="chip bg-color">leetcode</span>
+                    <a href="/tags/Promise/">
+                        <span class="chip bg-color">Promise</span>
                     </a>
                     
                 </div>
