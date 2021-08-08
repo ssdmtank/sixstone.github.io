@@ -107,7 +107,7 @@ pre {
 
 pre[class*="language-"] {
     padding: 2em 4em !important;
-    overflow: hidden !important;
+    overflow-y: hidden !important;
 }
 
 .code-area::after {

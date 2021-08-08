@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="手写类似vue双向绑定, Vue NodeJs 前端">
+    <meta name="keywords" content="一些前端面试题目整理和解答, Vue NodeJs 前端">
     <meta name="description" content="分享前端开发内容">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -18,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>手写类似vue双向绑定 | 碳酸苏打的博客</title>
+    <title>一些前端面试题目整理和解答 | 碳酸苏打的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -313,12 +313,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">手写类似vue双向绑定</h1>
+                    <h1 class="description center-align post-title">一些前端面试题目整理和解答</h1>
                 </div>
             </div>
         </div>
@@ -434,12 +434,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/">
-                                <span class="chip bg-color">手写代码</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%812/">
-                                <span class="chip bg-color">手写代码2</span>
+                            <a href="/tags/%E9%9D%A2%E8%AF%95/">
+                                <span class="chip bg-color">面试</span>
                             </a>
                         
                     </div>
@@ -450,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%813/" class="post-category">
-                                手写代码3
+                            <a href="/categories/js%E5%9F%BA%E7%A1%80/" class="post-category">
+                                js基础
                             </a>
                         
                     </div>
@@ -463,28 +459,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-07-25
+                    2021-08-08
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-07-26
+                    2021-08-08
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8
+                    492
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -507,10 +503,74 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="markdown语法"><a href="#markdown语法" class="headerlink" title="markdown语法"></a>markdown语法</h3> <pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+                <ol>
+<li>cosnt a = { b: 1 }; a.b = 2 有什么方法让他赋值无效</li>
+</ol>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">Object<span class="token punctuation">.</span><span class="token function">freeze</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+a<span class="token punctuation">.</span>b <span class="token operator">=</span> <span class="token number">2</span>
+a<span class="token punctuation">.</span>b<span class="token punctuation">;</span> <span class="token comment">// 1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>Object.freeze()冻结的是值，你仍然可以将变量的引用替换掉<br>常见的应用场景是对静态或纯数据的展示，可以优化性能</p>
+<ol start="2">
+<li>arr = [6, 4, 5, 3, 1, 8]能不能用快速排序把数组升序</li>
+</ol>
+<blockquote>
+<p>快排复杂度 排序n个项目要Ο(nlogn)次比较。在最坏状况下则需要Ο(n2)次比较</p>
+</blockquote>
+<h5 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h5><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">quickSort</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">arr</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>arr<span class="token punctuation">.</span>length <span class="token operator">&lt;=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> arr
+    <span class="token keyword">let</span> left <span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> right <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>center <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">const</span> baseDot <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">round</span><span class="token punctuation">(</span>arr<span class="token punctuation">.</span>length <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span>
+    <span class="token keyword">const</span> base <span class="token operator">=</span> arr<span class="token punctuation">[</span>baseDot<span class="token punctuation">]</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;</span> base<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            left<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">===</span> base<span class="token punctuation">)</span><span class="token punctuation">&#123;</span> <span class="token comment">// 三路快排优化</span>
+            center<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+            right<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token function">quickSort</span><span class="token punctuation">(</span>left<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">...</span>center<span class="token punctuation">,</span> <span class="token operator">...</span><span class="token function">quickSort</span><span class="token punctuation">(</span>right<span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span>
+console<span class="token punctuation">.</span><span class="token function">time</span><span class="token punctuation">(</span><span class="token string">'quickSort'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">quickSort</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">timeEnd</span><span class="token punctuation">(</span><span class="token string">'quickSort'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p><strong>dd</strong></p>
+<h5 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h5><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">threeWayFastSort</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">arr<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 当前数组起始位置大于等于数组的末尾位置时退出递归</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>left <span class="token operator">>=</span> right<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span>
+    <span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token function">partition</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right<span class="token punctuation">)</span>
+    <span class="token comment">// 递归执行，将没有大于p和小于p的元素进行三路快拍</span>
+    <span class="token function">threeWayFastSort</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> left<span class="token punctuation">,</span> obj<span class="token punctuation">.</span>lt<span class="token punctuation">)</span>
+    <span class="token function">threeWayFastSort</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> obj<span class="token punctuation">.</span>rt<span class="token punctuation">,</span> right<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
 
+<span class="token keyword">const</span> <span class="token function-variable function">partition</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">arr<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">let</span> p <span class="token operator">=</span> arr<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token comment">// 基准值为数组的零号元素</span>
+    <span class="token keyword">let</span> lt <span class="token operator">=</span> left <span class="token comment">// 左区间的初始值</span>
+    <span class="token keyword">let</span> rt <span class="token operator">=</span> right <span class="token operator">+</span> <span class="token number">1</span> <span class="token comment">// 右区间的初始值</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> rt<span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">===</span> p<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            i<span class="token operator">++</span><span class="token punctuation">;</span> <span class="token comment">// 当前i指向元素p</span>
+        <span class="token punctuation">&#125;</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">></span> p<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">// 当前i指向元素大于p 将当前索引和rt-1 元素交换</span>
+            <span class="token punctuation">[</span>arr<span class="token punctuation">[</span>rt<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> arr<span class="token punctuation">[</span>rt <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+            rt<span class="token operator">--</span>
+        <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+            <span class="token punctuation">[</span>arr<span class="token punctuation">[</span>lt <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>arr<span class="token punctuation">[</span>lt <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+            lt<span class="token operator">++</span>
+            i<span class="token operator">++</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// i走向gt处，除了基准值外的元素，其余的空间已经分区完毕，交换基准值与lt处的元素，lt-1，最终得到我们需要的三个区间</span>
+    <span class="token punctuation">[</span>arr<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">,</span>arr<span class="token punctuation">[</span>lt<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>arr<span class="token punctuation">[</span>lt<span class="token punctuation">]</span><span class="token punctuation">,</span>arr<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    lt<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>lt <span class="token operator">:</span> lt<span class="token punctuation">,</span> rt <span class="token operator">:</span> rt<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+console<span class="token punctuation">.</span><span class="token function">time</span><span class="token punctuation">(</span><span class="token string">'threeWayFastSort'</span><span class="token punctuation">)</span>
+<span class="token function">threeWayFastSort</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">timeEnd</span><span class="token punctuation">(</span><span class="token string">'threeWayFastSort'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
                 
             </div>
             <hr/>
@@ -536,7 +596,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://ssdmtank.github.io/2021/07/25/shou-xie-lei-si-vue-shuang-xiang-bang-ding/">https://ssdmtank.github.io/2021/07/25/shou-xie-lei-si-vue-shuang-xiang-bang-ding/</a>
+                    <a href="https://ssdmtank.github.io/2021/08/08/qian-duan-mian-shi-ti-mu-zheng-li-he-jie-da/">https://ssdmtank.github.io/2021/08/08/qian-duan-mian-shi-ti-mu-zheng-li-he-jie-da/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -574,12 +634,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/">
-                                    <span class="chip bg-color">手写代码</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%812/">
-                                    <span class="chip bg-color">手写代码2</span>
+                                <a href="/tags/%E9%9D%A2%E8%AF%95/">
+                                    <span class="chip bg-color">面试</span>
                                 </a>
                             
                         </div>
@@ -1073,17 +1129,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2021/07/27/qian-duan-leetcode/">
+                <a href="/2021/08/08/qian-duan-mian-shi-ti-mu-zheng-li-he-jie-da/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="前端Leetcode">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="一些前端面试题目整理和解答">
                         
-                        <span class="card-title">前端Leetcode</span>
+                        <span class="card-title">一些前端面试题目整理和解答</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1093,26 +1150,27 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-07-27
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-08
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
+                            <a href="/categories/js%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    js基础
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/leetcode/">
-                        <span class="chip bg-color">leetcode</span>
+                    <a href="/tags/%E9%9D%A2%E8%AF%95/">
+                        <span class="chip bg-color">面试</span>
                     </a>
                     
                 </div>
@@ -1126,13 +1184,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/07/23/hello-world/">
+                <a href="/2021/08/06/vue-shu-ju-shuang-xiang-bang-ding-dui-shu-zu-de-chu-li/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Vue数据双向绑定对数组的处理">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">Vue数据双向绑定对数组的处理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1143,15 +1201,27 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-06
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            King Win
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Vue/" class="post-category">
+                                    Vue
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%95%B0%E7%BB%84/">
+                        <span class="chip bg-color">数组</span>
+                    </a>
+                    
                 </div>
                 
             </div>
